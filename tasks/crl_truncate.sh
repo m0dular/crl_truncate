@@ -125,8 +125,10 @@ fi
 # openssl requires that the crlnumber be hex with an even number of digits
 # %02 in the format string with pad it to two characters, otherwise we have to check for evenness and add a 0 if needed
 crl_number="$("$PUPPET_BIN"/openssl crl -crlnumber -noout -in "$ssldir"/ca/ca_crl.pem)"
-crl_number="$(printf '%02x\n' "0x${crl_number##*=}")"
+# Strip everything before the '=' character and increment by one, as the docs say this should be the next crl number
+crl_number="$(printf '%02x\n' $((0x${crl_number##*=} +1 )))"
 
+# Add a leading 0 if we have an odd number of digits
 (( ${#crl_number} % 2 == 0 )) || crl_number="0${crl_number}"
 echo "$crl_number" >/tmp/crlnumber
 
