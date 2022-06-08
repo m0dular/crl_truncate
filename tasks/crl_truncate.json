@@ -4,6 +4,11 @@
     "ssldir": {
       "description": "The location of the Puppet ssl dir",
       "type": "Optional[String[1]]"
+    },
+    "crl_expiration_days": {
+      "description": "The number of days until the new CRL expires.  Defaults to 15 years (5475 days)",
+      "type": "Integer[1]",
+      "default": 5475
     }
   },
   "implementations": [
