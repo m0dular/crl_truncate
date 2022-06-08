@@ -33,7 +33,7 @@ trap fail ERR
 
 (( EUID == 0 )) || fail 'This script must be run as root'
 
-cat >/tmp/openssl.cnf <<'EOF'
+cat >/tmp/openssl.cnf <<EOF
 ####################################################################
 [ ca ]
 default_ca      = CA_default            # The default ca section
@@ -42,16 +42,16 @@ default_ca      = CA_default            # The default ca section
 [ CA_default ]
 
 dir             = /tmp          # Where everything is kept
-certs           = $dir/certs            # Where the issued certs are kept
-crl_dir         = $dir          # Where the issued crl are kept
-database        = $dir/index.txt        # database index file.
+certs           = \$dir/certs            # Where the issued certs are kept
+crl_dir         = \$dir          # Where the issued crl are kept
+database        = \$dir/index.txt        # database index file.
 #unique_subject = no                    # Set to 'no' to allow creation of
                                         # several certs with same subject.
-new_certs_dir   = $dir/newcerts         # default place for new certs.
+new_certs_dir   = \$dir/newcerts         # default place for new certs.
 
 certificate     = /etc/puppetlabs/puppet/ssl/certs/ca.pem       # The CA certificate
 serial          = /etc/puppetlabs/puppet/ssl/ca/serial          # The current serial number
-crlnumber       = $dir/crlnumber        # the current crl number
+crlnumber       = \$dir/crlnumber        # the current crl number
 crl             = /etc/puppetlabs/puppet/ssl/certs/ca/ca_crl.pem                # The current CRL
 private_key     = /etc/puppetlabs/puppet/ssl/ca/ca_key.pem # The private key
 
@@ -70,10 +70,10 @@ cert_opt        = ca_default            # Certificate field options
 # crlnumber must also be commented out to leave a V1 CRL.
 crl_extensions  = crl_ext
 
-default_days    = 365                   # how long to certify for
-default_crl_days= 30                    # how long before next CRL
-default_md      = default               # use public key default MD
-preserve        = no                    # keep passed DN ordering
+default_days     = 365                   # how long to certify for
+default_crl_days = $crl_expiration_days  # how long before next CRL
+default_md       = default               # use public key default MD
+preserve         = no                    # keep passed DN ordering
 
 # A few difference way of specifying how similar the request should look
 # For type CA, the listed attributes must be the same, and the optional
