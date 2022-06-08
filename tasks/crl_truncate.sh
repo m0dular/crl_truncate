@@ -146,6 +146,9 @@ else
 fi
 
 # Send errors to our temp file
-"$PUPPET_BIN"/puppet agent --onetime --no-daemonize --no-usecacheonfailure --logdest "$_tmp" --log_level err
-
-success '{ "status": "success", "message": "CRL truncated and Puppet agent run completed"}'
+if $run_puppet_agent; then
+  "$PUPPET_BIN"/puppet agent --onetime --no-daemonize --no-usecacheonfailure --logdest "$_tmp" --log_level err
+  success '{ "status": "success", "message": "CRL truncated and Puppet agent run completed"}'
+else
+  success '{ "status": "success", "message": "CRL truncated. Puppet agent run was skipped"}'
+fi
