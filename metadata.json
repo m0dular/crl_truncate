@@ -1,6 +1,6 @@
 {
   "name": "m0dular-crl_truncate",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Adrian Parreiras Horta",
   "summary": "Truncate the CRL issued by the Puppet CA",
   "license": "GPL-3.0-or-later",
