@@ -126,6 +126,9 @@ fi
 # %02 in the format string with pad it to two characters, otherwise we have to check for evenness and add a 0 if needed
 crl_number="$("$PUPPET_BIN"/openssl crl -crlnumber -noout -in "$ssldir"/ca/ca_crl.pem)"
 # Strip everything before the '=' character and increment by one, as the docs say this should be the next crl number
+# -crlnumber may or may not print the 0x prefix depending on the version of openssl, so remove it if present before doing the calculation.  Thanks, openssl
+crl_number="${crl_number##*=}"
+crl_number="${crl_number##*x}"
 crl_number="$(printf '%02x\n' $((0x${crl_number##*=} +1 )))"
 
 # Add a leading 0 if we have an odd number of digits
